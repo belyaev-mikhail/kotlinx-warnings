@@ -1,7 +1,7 @@
 #! /bin/env kscript
 
-@file:DependsOn("org.jetbrains.kotlin:kotlin-compiler:1.3.72")
-val version = "1.3.72"
+@file:DependsOn("org.jetbrains.kotlin:kotlin-compiler:1.4.0")
+val version = "1.4.0"
 
 val warnings =
         org.jetbrains.kotlin.diagnostics.Errors::class.java.declaredFields
