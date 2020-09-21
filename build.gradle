@@ -1,0 +1,58 @@
+plugins {
+    id "org.jetbrains.kotlin.jvm" version "$kotlinVersion"
+    id 'com.jfrog.bintray' version '1.8.5'
+    id 'maven-publish'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+     compile "org.jetbrains.kotlin:kotlin-compiler:$kotlinVersion"
+}
+
+task gen() {
+    doLast {
+        def warnings =
+                Class.forName("org.jetbrains.kotlin.diagnostics.Errors")
+                .declaredFields
+                .collect { [it.name, it.get(null)] }
+                .findAll { it[1] in Class.forName("org.jetbrains.kotlin.diagnostics.DiagnosticFactory") }
+                .findAll { it[1]?.severity?.toString() == 'WARNING' }
+                .collect { it[0] }
+                .collect { """const val $it = "$it" """ }
+                .join('\n')
+        mkdir 'src/main/kotlin/kotlinx'
+
+        new File("src/main/kotlin/kotlinx/Warnings.kt").withPrintWriter {
+            it.println("package kotlinx.warnings")
+            it.println()
+            it.println("object Warnings { ")
+            it.println('    ' + warnings.replace('\n', '\n    '))
+            it.println("}")
+        }
+    }
+}
+
+compileKotlin {
+    dependsOn gen
+}
+
+bintray {
+    user = System.getenv('BINTRAY_USER')
+    key = System.getenv('BINTRAY_KEY')
+
+    publications = ['KotlinMaven']
+}
+
+publishing {
+    publications {
+        KotlinMaven(MavenPublication) {
+            from components.java
+            groupId 'ru.spbstu'
+            artifactId 'kotlinx-warnings'
+            version "$kotlinVersion"
+        }
+    }
+}
