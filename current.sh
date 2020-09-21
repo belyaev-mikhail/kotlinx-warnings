@@ -1,4 +1,4 @@
-LATEST_KOTLIN_VERSION=$(curl -sS https://api.github.com/repos/jetbrains/kotlin/releases/latest | grep -o '"name"\s*\:\s*"Kotlin\s*\(.*\)"' | grep -o "[0-9.]*")
+LATEST_KOTLIN_VERSION=$(curl -sS https://repo1.maven.org/maven2/org/jetbrains/kotlin/kotlin-compiler/maven-metadata.xml | grep -o '<latest>[^<]*</latest>' | grep -o "[0-9.]*")
 echo "Latest Kotlin version is " $LATEST_KOTLIN_VERSION
 CURRENT_VERSION=$(curl -sS https://dl.bintray.com/vorpal-research/kotlin-maven/ru/spbstu/kotlinx-warnings/maven-metadata.xml | grep -o '<latest>[^<]*</latest>' | grep -o "[0-9.]*")
 echo "Latest kotlinx-warnings version is " $CURRENT_VERSION
