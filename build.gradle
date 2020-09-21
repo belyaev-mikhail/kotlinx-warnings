@@ -42,8 +42,21 @@ compileKotlin {
 bintray {
     user = System.getenv('BINTRAY_USERNAME')
     key = System.getenv('BINTRAY_PASSWORD')
+    publish = true
 
     publications = ['KotlinMaven']
+
+    pkg {
+        repo = 'kotlin-maven'
+        name = 'kotlinx-warnings'
+        userOrg = 'vorpal-research'
+
+        version {
+            name = "$kotlinVersion"
+            released = new Date()
+            vcsTag = "$kotlinVersion"
+        }
+    }
 }
 
 publishing {
