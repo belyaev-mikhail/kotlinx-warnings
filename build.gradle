@@ -9,7 +9,7 @@ repositories {
 }
 
 dependencies {
-     compile "org.jetbrains.kotlin:kotlin-compiler:$kotlinVersion"
+     compileOnly "org.jetbrains.kotlin:kotlin-compiler:$kotlinVersion"
 }
 
 task gen() {
