@@ -1,15 +1,23 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-compiler:$kotlinVersion"
+    }
+}
+
 plugins {
-    id "org.jetbrains.kotlin.jvm" version "$kotlinVersion"
-    id 'com.jfrog.bintray' version '1.8.5'
+    id 'org.jetbrains.kotlin.multiplatform' version "$kotlinVersion"
     id 'maven-publish'
 }
 
-repositories {
-    mavenCentral()
-}
+group 'ru.spbstu'
+version "$kotlinVersion"
 
-dependencies {
-     compileOnly "org.jetbrains.kotlin:kotlin-compiler:$kotlinVersion"
+repositories {
+    jcenter()
 }
 
 task gen() {
@@ -35,37 +43,32 @@ task gen() {
     }
 }
 
-compileKotlin {
-    dependsOn gen
-}
-
-bintray {
-    user = System.getenv('BINTRAY_USERNAME')
-    key = System.getenv('BINTRAY_PASSWORD')
-    publish = true
-
-    publications = ['KotlinMaven']
-
-    pkg {
-        repo = 'kotlin-maven'
-        name = 'kotlinx-warnings'
-        userOrg = 'vorpal-research'
-
-        version {
-            name = "$kotlinVersion"
-            released = new Date()
-            vcsTag = "$kotlinVersion"
-        }
+kotlin {
+    jvm()
+    js {
+        nodejs()
+        browser()
     }
 }
 
+clean {
+    afterEvaluate {
+        file('src/main/kotlin/kotlinx').deleteDir()
+    }
+}
+
+assemble {
+    dependsOn gen
+}
+
 publishing {
-    publications {
-        KotlinMaven(MavenPublication) {
-            from components.java
-            groupId 'ru.spbstu'
-            artifactId 'kotlinx-warnings'
-            version "$kotlinVersion"
+    repositories {
+        maven {
+            url = "https://api.bintray.com/maven/${bintrayOrg}/${bintrayRepo}/${project.name}/;publish=1;override=1"
+            credentials {
+                username System.getenv('BINTRAY_USERNAME')
+                password System.getenv('BINTRAY_PASSWORD')
+            }
         }
     }
 }
