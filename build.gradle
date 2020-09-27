@@ -21,6 +21,7 @@ repositories {
 }
 
 task gen() {
+    outputs.dir('src/commonMain/kotlin/kotlinx')
     doLast {
         def warnings =
                 Class.forName("org.jetbrains.kotlin.diagnostics.Errors")
@@ -31,9 +32,9 @@ task gen() {
                 .collect { it[0] }
                 .collect { """const val $it = "$it" """ }
                 .join('\n')
-        mkdir 'src/main/kotlin/kotlinx'
+        mkdir 'src/commonMain/kotlin/kotlinx'
 
-        new File("src/main/kotlin/kotlinx/Warnings.kt").withPrintWriter {
+        new File("src/commonMain/kotlin/kotlinx/Warnings.kt").withPrintWriter {
             it.println("package kotlinx.warnings")
             it.println()
             it.println("object Warnings { ")
@@ -49,16 +50,20 @@ kotlin {
         nodejs()
         browser()
     }
+
+    sourceSets {
+        commonMain {}
+    }
 }
 
 clean {
     afterEvaluate {
-        file('src/main/kotlin/kotlinx').deleteDir()
+        delete 'src/commonMain/kotlin/kotlinx'
     }
 }
 
-assemble {
-    dependsOn gen
+tasks.findAll {it.name.contains('compileKotlin') }.collect {
+    it.dependsOn gen
 }
 
 publishing {
