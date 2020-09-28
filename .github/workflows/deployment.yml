@@ -18,7 +18,7 @@ jobs:
     - name: Deploy to Bintray
       id: deploy-to-bintray
       run: |
-        ./gradlew -PkotlinVersion=${{ github.event.release.tag_name }} build bintrayUpload
+        ./gradlew -PkotlinVersion=${{ github.event.release.tag_name }} publish
       env:
         BINTRAY_USERNAME: ${{ secrets.bintray_username }}
         BINTRAY_PASSWORD: ${{ secrets.bintray_password }}
