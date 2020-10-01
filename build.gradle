@@ -50,6 +50,7 @@ kotlin {
         nodejs()
         browser()
     }
+    linuxX64()
 
     targets.all {
         compilations.all {
