@@ -19,10 +19,10 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
-    - name: Deploy to Bintray
-      id: deploy-to-bintray
+    - name: Deploy to Github Packages
+      id: deploy-to-github
       run: |
         bash current.sh
       env:
-        BINTRAY_USERNAME: ${{ secrets.bintray_username }}
-        BINTRAY_PASSWORD: ${{ secrets.bintray_password }}
+        DEPLOY_USERNAME: vorpal-reseacher
+        DEPLOY_PASSWORD: ${{ secrets.ORG_GITHUB_TOKEN }}

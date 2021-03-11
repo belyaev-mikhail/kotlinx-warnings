@@ -72,10 +72,10 @@ clean {
 publishing {
     repositories {
         maven {
-            url = "https://api.bintray.com/maven/${bintrayOrg}/${bintrayRepo}/${project.name}/;publish=1;override=1"
+            url = "https://maven.pkg.github.com/vorpal-research/kotlin-maven"
             credentials {
-                username (project.findProperty('bintrayUsername') ?: System.getenv('BINTRAY_USERNAME'))
-                password (project.findProperty('bintrayPassword') ?: System.getenv('BINTRAY_PASSWORD'))
+                username (project.findProperty('deployUsername') ?: System.getenv('DEPLOY_USERNAME'))
+                password (project.findProperty('deployPassword') ?: System.getenv('DEPLOY_PASSWORD'))
             }
         }
     }
