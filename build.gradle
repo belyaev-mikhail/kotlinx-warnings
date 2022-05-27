@@ -1,6 +1,6 @@
 buildscript {
     repositories {
-        jcenter()
+        mavenCentral()
     }
 
     dependencies {
@@ -17,7 +17,7 @@ group 'ru.spbstu'
 version "$kotlinVersion"
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 task gen() {
