@@ -18,7 +18,7 @@ jobs:
     - name: Deploy to Github Packages
       id: deploy-to-github
       run: |
-        ./gradlew -PkotlinVersion=${{ github.event.release.tag_name }} publish
+        ./gradlew -PkotlinVersion=${{ github.event.release.tag_name }} build publish
       env:
         DEPLOY_USERNAME: vorpal-reseacher
         DEPLOY_PASSWORD: ${{ secrets.ORG_GITHUB_TOKEN }}
