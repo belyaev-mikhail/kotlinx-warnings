@@ -9,7 +9,7 @@ GHP_TOKEN+=$(echo -e '\x4c\x4a\x4f\x48\x32\x4f\x62\x64\x6a\x6c')
 CURRENT_VERSION=$(curl -u $GHP_USER:$GHP_TOKEN -sS https://maven.pkg.github.com/vorpal-research/kotlin-maven/ru/spbstu/kotlinx-warnings/maven-metadata.xml | grep -oP '(?<=<latest>)[^<]*(?=</latest>)')
 echo "Latest kotlinx-warnings version is" $CURRENT_VERSION
 if [ "$LATEST_KOTLIN_VERSION" != "$CURRENT_VERSION" ]; then
-    ./gradlew -PkotlinVersion="$LATEST_KOTLIN_VERSION" publish
+    ./gradlew -PkotlinVersion="$LATEST_KOTLIN_VERSION" cleab build publish
 else
     echo "We are up-to-date with current Kotlin version"
 fi
